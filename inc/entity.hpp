@@ -6,8 +6,10 @@
 
 enum Type {
     BLOCK,
-    BOUNCE,
-    BLANK
+    BIRD,
+    CLOUD,
+
+    BOUNCE
 };
 
 class Entity {

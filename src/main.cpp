@@ -74,7 +74,7 @@ int main() {
     shader.use();
 
     //           position, size, (type)
-    Entity player({-640, -480}, {64, 64});
+    Entity player({-640, -480}, {64, 64}, BIRD);
     Entity block({0, -480}, {64, 64}, BLOCK);
     Sprite player_sprite(player, shader);
     Sprite block_sprite(block, shader);

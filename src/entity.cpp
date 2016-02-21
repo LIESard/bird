@@ -69,7 +69,7 @@ void Entity::handleCollision(Entity &e, float delta_time) {
         }
         break;
 
-    case BLANK:
+    case CLOUD:
         break;
 
     default:

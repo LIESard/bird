@@ -75,12 +75,12 @@ int main() {
 
     //           position, size, (type)
     Entity player({-640, -480}, {64, 64});
-    Entity enemy({0, -480}, {64, 64}, BLOCK);
+    Entity block({0, -480}, {64, 64}, BLOCK);
     Sprite player_sprite(player, shader);
-    Sprite enemy_sprite(enemy, shader);
+    Sprite block_sprite(block, shader);
 
     // Create list of drawable entities
-    std::vector<Sprite*> sprites = {&player_sprite, &enemy_sprite};
+    std::vector<Sprite*> sprites = {&player_sprite, &block_sprite};
 
     puts("Birds are Ok, I guess");
 
@@ -101,7 +101,7 @@ int main() {
             player.move(window);
 
             player.update(FRAME_TIME);
-            player.handleCollision(enemy, FRAME_TIME);
+            player.handleCollision(block, FRAME_TIME);
             player_sprite.sync(player);
         }
 

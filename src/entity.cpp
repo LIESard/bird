@@ -12,37 +12,45 @@ void Entity::update(float delta_time) {
 
 void Entity::move(GLFWwindow *window) {
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-        if (velocity.x < 0) {
-            velocity.x = 0;
+        if (velocity.x != 1000) {
+            acceleration.x = 1000;
+        } else {
+            acceleration.x = 0;
         }
-        acceleration.x = 500;
+        velocity.x = 1000;
     }
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-        if (velocity.x > 0) {
-            velocity.x = 0;
+        if (velocity.x != -1000) {
+            acceleration.x = -1000;
+        } else {
+            acceleration.x = 0;
         }
-        acceleration.x = -500;
+        velocity.x = -1000;
     }
     if (glfwGetKey(window, GLFW_KEY_RIGHT) != GLFW_PRESS &&
         glfwGetKey(window, GLFW_KEY_LEFT) != GLFW_PRESS) {
-            velocity.x = 0;
+            acceleration.x = -(5 * velocity.x);
     }
     
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-        if (velocity.y < 0) {
-            velocity.y = 0;
+        if (velocity.y != 1000) {
+            acceleration.y = 1000;
+        } else {
+            acceleration.y = 0;
         }
-        acceleration.y = 500;
+        velocity.y = 1000;
     }
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-        if (velocity.y > 0) {
-            velocity.y = 0;
+        if (velocity.y != -1000) {
+            acceleration.y = -1000;
+        } else {
+            acceleration.y = 0;
         }
-        acceleration.y = -500;
+        velocity.y = -1000;
     }
     if (glfwGetKey(window, GLFW_KEY_UP) != GLFW_PRESS &&
         glfwGetKey(window, GLFW_KEY_DOWN) != GLFW_PRESS) {
-            velocity.y = 0;
+            acceleration.y = -(5 * velocity.y);
     }
 }
 

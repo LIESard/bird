@@ -1,5 +1,5 @@
 CC=g++
-INCDIR=include
+INCDIR=inc
 SRCDIR=src
 FLAGS=-Wall -Werror -std=c++14 -c -g
 LIBS=-lglfw -lGLEW -lGL

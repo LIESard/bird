@@ -1,8 +1,8 @@
 #ifndef ENTITY
 #define ENTITY
 
-#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <GLFW/glfw3.h>
 
 enum Type {
     BLOCK,

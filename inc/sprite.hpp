@@ -18,6 +18,7 @@ public:
     GLuint vbo, ebo, vao, texture;
     GLint vao_index, tex_index;
     void sync(Entity e);
+    void updateTexture(Shader &s);
 
     Sprite(Shader &s);
     Sprite(Entity &e, Shader &s);

@@ -97,15 +97,6 @@ Entity::Entity() {}
 Entity::Entity(glm::vec2 position) :
                position {position} {}
 
-Entity::Entity(glm::vec2 position, Type type) :
-               position {position},
-               type {type} {}
-
 Entity::Entity(glm::vec2 position, glm::vec2 size) :
                size {size},
                position {position} {}
-
-Entity::Entity(glm::vec2 position, glm::vec2 size, Type type) :
-               size {size},
-               position {position},
-               type {type} {}

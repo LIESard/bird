@@ -16,6 +16,12 @@ float timeSince(std::chrono::high_resolution_clock::time_point time_start) {
                (time_now - time_start).count() / 2;
 }
 
+void syncSprites(std::vector<Entity*> e, std::vector<Sprite*> s) {
+    for (unsigned int i = 0; i < e.size(); i++) {
+        s[i]->sync(*e[i]);
+    }
+}
+
 void showPosition(Entity &e) {
     std::cout << e.acceleration.x << ", " << e.acceleration.y << "  "
               << e.velocity.x << ", " << e.velocity.y << "  "
@@ -119,8 +125,8 @@ int main() {
                 e->update(FRAME_TIME);
             }
             player.handleCollision(block, FRAME_TIME);
-            player_sprite.sync(player);
-            block_sprite.sync(block);
+
+            syncSprites(entities, sprites);
         }
 
         draw(window, sprites);

@@ -17,7 +17,7 @@ public:
     std::array<u_int8_t, 6> elements;
     GLuint vbo, ebo, vao, texture;
     GLint vao_index, tex_index;
-    void sync(Entity e);
+    void sync(Entity &e);
     void updateTexture(Shader &s);
 
     Sprite(Shader &s);

@@ -3,7 +3,8 @@
 #include <iostream>
 #include "sprite.hpp"
 #include "shader.hpp"
-#include "entity.hpp"
+#include "bird.hpp"
+#include "block.hpp"
 #include <GLFW/glfw3.h>
 
 constexpr int WIDTH = 640, HEIGHT = 480;
@@ -27,6 +28,18 @@ void showPosition(Sprite &s) {
     }
 
     std::cout << std::endl;
+}
+
+void showVertices(Entity &e) {
+    for (float f : e.vertices) {
+        std::cout << f << std::endl;
+    }
+}
+
+void showVertices(Sprite &s) {
+    for (float f : s.vertices) {
+        std::cout << f << std::endl;
+    }
 }
 
 void draw(GLFWwindow *window, std::vector<Sprite*> &sprites) {
@@ -74,10 +87,12 @@ int main() {
     shader.use();
 
     //              position,       size
-    Entity player(  {-640, -480},   {64, 64});
-    Entity block(   {0, -480},      {64, 64});
+    Bird player(    {-640, -480},   {64, 64});
+    Block block(    {0, -480},      {64, 64});
     Sprite player_sprite(player, shader);
     Sprite block_sprite(block, shader);
+
+    std::vector<Entity*> entities = {&player, &block};
 
     // Create list of drawable entities
     std::vector<Sprite*> sprites = {&player_sprite, &block_sprite};
@@ -100,9 +115,12 @@ int main() {
             }
             player.move(window);
 
-            player.update(FRAME_TIME);
+            for (Entity *e : entities) {
+                e->update(FRAME_TIME);
+            }
             player.handleCollision(block, FRAME_TIME);
             player_sprite.sync(player);
+            block_sprite.sync(block);
         }
 
         draw(window, sprites);

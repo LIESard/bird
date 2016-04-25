@@ -1,24 +1,22 @@
-#include "sprite.hpp"
 #define STB_IMAGE_IMPLEMENTATION
 #define STBI_ONLY_PNG   
 #include "stb_image.h"
+#include "sprite.hpp"
 #include <iostream>
 
-constexpr std::array<float, 16> genVertices(Entity &e) {
-    return {{
-        e.position.x, e.position.y,                         0.f, 16.f,
-        e.position.x + e.size.x, e.position.y,              16.f, 16.f,
-        e.position.x + e.size.x, e.position.y + e.size.y,   16.f, 0.f,
-        e.position.x, e.position.y + e.size.y,              0.f, 0.f
-    }};
-}
-
-void Sprite::sync(Entity e) {
-    vertices = genVertices(e);
+void Sprite::sync(Entity &e) {
+    vertices = e.vertices;
     
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float),
                  vertices.data(), GL_STATIC_DRAW);
+}
+
+void Sprite::updateTexture(Shader &s) {
+    tex_index = glGetAttribLocation(s, "tex_coord");
+    glEnableVertexAttribArray(tex_index);
+    glVertexAttribPointer(tex_index, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float),
+                          (void*)(2 * sizeof(float)));
 }
 
 Sprite::Sprite(Shader &s) {
@@ -35,7 +33,7 @@ Sprite::Sprite(Shader &s) {
 }
 
 Sprite::Sprite(Entity &e, Shader &s) {
-    vertices = genVertices(e);
+    vertices = e.vertices;
 
     elements = {{
         0, 1, 2,
@@ -56,7 +54,8 @@ Sprite::Sprite(Entity &e, Shader &s) {
                  elements.data(), GL_STATIC_DRAW);
 
     vao_index = glGetAttribLocation(s, "position");
-    glVertexAttribPointer(vao_index, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+    glVertexAttribPointer(vao_index, 2, GL_FLOAT, GL_FALSE,
+                          4 * sizeof(float), 0);
     glEnableVertexAttribArray(vao_index);
 
     glGenTextures(1, &texture);
@@ -74,10 +73,8 @@ Sprite::Sprite(Entity &e, Shader &s) {
     glVertexAttribPointer(tex_index, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float),
                           (void*)(2 * sizeof(float)));
 
-
     glGenerateMipmap(GL_TEXTURE_2D);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                    GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 }
 
 Sprite::~Sprite() {

@@ -7,7 +7,22 @@ void Entity::applyForce(glm::vec2 force) {
 void Entity::update(float delta_time) {
     velocity += acceleration * delta_time;
     position += velocity * delta_time;
-    acceleration = {0, 0};
+    // acceleration = {0, 0};
+    
+    vertices = {{
+        // position coordinates                             texture coordinates
+        position.x, position.y,
+        texPosition.x, texPosition.y + texSize.y,
+
+        position.x + size.x, position.y,
+        texPosition.x + texSize.x, texPosition.y + texSize.y,
+
+        position.x + size.x, position.y + size.y,
+        texPosition.x + texSize.x, texPosition.y,
+
+        position.x, position.y + size.y,
+        texPosition.x, texPosition.y,
+    }};
 }
 
 void Entity::move(GLFWwindow *window) {
@@ -54,28 +69,7 @@ void Entity::move(GLFWwindow *window) {
     }
 }
 
-void Entity::handleCollision(Entity &e, float delta_time) {
-    switch (e.type) {
-    case BLOCK:
-        while (isColliding(e)) {
-            position -= velocity * (delta_time / 100.f);
-        }
-        break;
-
-    case BOUNCE:
-        if (isColliding(e)) {
-            bounce();
-            e.bounce();
-        }
-        break;
-
-    case CLOUD:
-        break;
-
-    default:
-        break;
-    }
-}
+void Entity::handleCollision(Entity &e, float delta_time) {}
 
 void Entity::bounce() {
     velocity = -velocity;
@@ -99,4 +93,20 @@ Entity::Entity(glm::vec2 position) :
 
 Entity::Entity(glm::vec2 position, glm::vec2 size) :
                size {size},
-               position {position} {}
+               position {position} {
+
+    vertices = {{
+        // position coordinates                             texture coordinates
+        position.x, position.y,
+        texPosition.x, texPosition.y + texSize.y,
+
+        position.x + size.x, position.y,
+        texPosition.x + texSize.x, texPosition.y + texSize.y,
+
+        position.x + size.x, position.y + size.y,
+        texPosition.x + texSize.x, texPosition.y,
+
+        position.x, position.y + size.y,
+        texPosition.x, texPosition.y,
+    }};
+}

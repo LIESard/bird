@@ -89,7 +89,9 @@ bool Entity::isColliding(Entity &e) {
 Entity::Entity() {}
 
 Entity::Entity(glm::vec2 position) :
-               position {position} {}
+               position {position} {
+                size = {64, 64};
+               }
 
 Entity::Entity(glm::vec2 position, glm::vec2 size) :
                size {size},

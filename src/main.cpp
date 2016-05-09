@@ -5,6 +5,7 @@
 #include "shader.hpp"
 #include "bird.hpp"
 #include "block.hpp"
+#include "cloud.hpp"
 #include <GLFW/glfw3.h>
 
 constexpr int WIDTH = 640, HEIGHT = 480;
@@ -92,16 +93,18 @@ int main() {
     shader.compile();
     shader.use();
 
-    //              position,       size
-    Bird player(    {-640, -480},   {64, 64});
-    Block block(    {0, -480},      {64, 64});
+    //          position
+    Bird player({-640, -480});
+    Block block({0, -480});
+    Cloud cloud({-120, -120});
     Sprite player_sprite(player, shader);
     Sprite block_sprite(block, shader);
+    Sprite cloud_sprite(cloud, shader);
 
-    std::vector<Entity*> entities = {&player, &block};
+    std::vector<Entity*> entities = {&player, &block, &cloud};
 
     // Create list of drawable entities
-    std::vector<Sprite*> sprites = {&player_sprite, &block_sprite};
+    std::vector<Sprite*> sprites = {&player_sprite, &block_sprite, &cloud_sprite};
 
     puts("Birds are Ok, I guess");
 

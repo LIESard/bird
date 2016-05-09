@@ -1,7 +1,6 @@
 #ifndef BIRD
 #define BIRD
 
-#include <glm/glm.hpp>
 #include "entity.hpp"
 
 class Bird : public Entity {

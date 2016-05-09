@@ -1,7 +1,6 @@
 #ifndef BLOCK
 #define BLOCK
 
-#include <glm/glm.hpp>
 #include "entity.hpp"
 
 class Block : public Entity {

@@ -10,7 +10,8 @@ void Entity::update(float delta_time) {
     // acceleration = {0, 0};
     
     vertices = {{
-        // position coordinates                             texture coordinates
+        // position coordinates
+        // texture coordinates
         position.x, position.y,
         texPosition.x, texPosition.y + texSize.y,
 
@@ -27,20 +28,20 @@ void Entity::update(float delta_time) {
 
 void Entity::move(GLFWwindow *window) {
     if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-        if (velocity.x != 1000) {
-            acceleration.x = 1000;
+        if (velocity.x != 5000) {
+            acceleration.x = 5000;
         } else {
             acceleration.x = 0;
         }
-        velocity.x = 1000;
+        velocity.x = 5000;
     }
     if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-        if (velocity.x != -1000) {
-            acceleration.x = -1000;
+        if (velocity.x != -5000) {
+            acceleration.x = -5000;
         } else {
             acceleration.x = 0;
         }
-        velocity.x = -1000;
+        velocity.x = -5000;
     }
     if (glfwGetKey(window, GLFW_KEY_RIGHT) != GLFW_PRESS &&
         glfwGetKey(window, GLFW_KEY_LEFT) != GLFW_PRESS) {
@@ -48,20 +49,20 @@ void Entity::move(GLFWwindow *window) {
     }
     
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-        if (velocity.y != 1000) {
-            acceleration.y = 1000;
+        if (velocity.y != 5000) {
+            acceleration.y = 5000;
         } else {
             acceleration.y = 0;
         }
-        velocity.y = 1000;
+        velocity.y = 5000;
     }
     if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-        if (velocity.y != -1000) {
-            acceleration.y = -1000;
+        if (velocity.y != -5000) {
+            acceleration.y = -5000;
         } else {
             acceleration.y = 0;
         }
-        velocity.y = -1000;
+        velocity.y = -5000;
     }
     if (glfwGetKey(window, GLFW_KEY_UP) != GLFW_PRESS &&
         glfwGetKey(window, GLFW_KEY_DOWN) != GLFW_PRESS) {

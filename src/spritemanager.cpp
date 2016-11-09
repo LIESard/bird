@@ -1,6 +1,7 @@
 #include "spritemanager.hpp"
 
-std::array<std::vector<Sprite*>, SpriteManager::NUM_SCENES> SpriteManager::scenes_list = {{}};
+std::array<std::vector<Sprite*>, SpriteManager::NUM_SCENES>
+        SpriteManager::scenes_list = {{}};
 
 void SpriteManager::addSprite(Sprite *sprite, const Scenes scene) {
     scenes_list[scene].push_back(sprite);

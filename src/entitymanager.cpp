@@ -1,6 +1,7 @@
 #include "entitymanager.hpp"
 
-std::array<std::vector<Entity*>, EntityManager::NUM_SCENES> EntityManager::scenes_list = {{}};
+std::array<std::vector<Entity*>, EntityManager::NUM_SCENES>
+        EntityManager::scenes_list = {{}};
 
 void EntityManager::addEntity(Entity *entity, const Scenes scene) {
     scenes_list[scene].push_back(entity);

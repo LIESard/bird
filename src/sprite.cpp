@@ -64,7 +64,7 @@ Sprite::Sprite(Shader &s, Scene sc) : scene {sc} {
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    vao_index = glGetAttribLocation(s, "position");
+    vao_index = glGetAttribLocation(s, "entity_pos");
     glVertexAttribPointer(vao_index, 2, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(vao_index);
 }
@@ -114,7 +114,7 @@ Sprite::Sprite(Shader &s) {
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
-    vao_index = glGetAttribLocation(s, "position");
+    vao_index = glGetAttribLocation(s, "entity_pos");
     glVertexAttribPointer(vao_index, 2, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(vao_index);
 }

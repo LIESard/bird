@@ -1,11 +1,13 @@
+#include <iostream>
 #include <chrono>
 #include <vector>
-#include <iostream>
+#include "entitymanager.hpp"
+#include "spritemanager.hpp"
 #include "sprite.hpp"
 #include "shader.hpp"
-#include "bird.hpp"
 #include "block.hpp"
 #include "cloud.hpp"
+#include "bird.hpp"
 #include <GLFW/glfw3.h>
 
 constexpr int WIDTH = 640, HEIGHT = 480;
@@ -15,12 +17,6 @@ float timeSince(std::chrono::high_resolution_clock::time_point time_start) {
         auto time_now = std::chrono::high_resolution_clock::now();
         return std::chrono::duration_cast<std::chrono::duration<float>>
                (time_now - time_start).count() / 2;
-}
-
-void syncSprites(std::vector<Entity*> e, std::vector<Sprite*> s) {
-    for (unsigned int i = 0; i < e.size(); i++) {
-        s[i]->sync(*e[i]);
-    }
 }
 
 void showPosition(Entity &e) {
@@ -48,21 +44,6 @@ void showVertices(Sprite &s) {
         std::cout << f << std::endl;
     }
 }
-
-void draw(GLFWwindow *window, std::vector<Sprite*> &sprites) {
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    for (unsigned int i = 0; i < sprites.size(); i++) {
-        glBindVertexArray(sprites[i]->vao);
-        glBindBuffer(GL_ARRAY_BUFFER, sprites[i]->vbo);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sprites[i]->ebo);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_BYTE, 0);
-    }
-
-    glfwSwapBuffers(window);
-}
-
-void update(GLFWwindow *window, std::vector<Sprite*> &sprites) {}
 
 GLFWwindow *createWindow() {
     GLFWwindow *window = NULL;
@@ -101,22 +82,26 @@ int main() {
     Sprite block_sprite(block, shader);
     Sprite cloud_sprite(cloud, shader);
 
-    std::vector<Entity*> entities = {&player, &block, &cloud};
+    EntityManager::addEntity(&player, EntityManager::Scenes::GAMEPLAY);
+    EntityManager::addEntity(&block, EntityManager::Scenes::FOREGROUND);
+    EntityManager::addEntity(&cloud, EntityManager::Scenes::BACKGROUND);
 
-    // Create list of drawable entities
-    std::vector<Sprite*> sprites = {&player_sprite, &block_sprite, &cloud_sprite};
+    SpriteManager::addSprite(&player_sprite, SpriteManager::Scenes::GAMEPLAY);
+    SpriteManager::addSprite(&block_sprite, SpriteManager::Scenes::FOREGROUND);
+    SpriteManager::addSprite(&cloud_sprite, SpriteManager::Scenes::BACKGROUND);
 
     puts("Birds are Ok, I guess");
 
-    double delta_time = 0;
+    double delta_t = 0;
     glClearColor(0.f, 0.5f, 1.f, 1.f);
 
     while (!glfwWindowShouldClose(window)) {
-        delta_time += glfwGetTime();
+        glClear(GL_COLOR_BUFFER_BIT);
+        delta_t += glfwGetTime();
         glfwSetTime(0);
 
-        while (delta_time > FRAME_TIME) {
-            delta_time -= FRAME_TIME;
+        while (delta_t > FRAME_TIME) {
+            delta_t -= FRAME_TIME;
 
             glfwPollEvents();
             if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -124,15 +109,23 @@ int main() {
             }
             player.move(window);
 
-            for (Entity *e : entities) {
-                e->update(FRAME_TIME);
-            }
+            EntityManager::update(delta_t, EntityManager::Scenes::FOREGROUND);
+            EntityManager::update(delta_t, EntityManager::Scenes::GAMEPLAY);
+            EntityManager::update(delta_t, EntityManager::Scenes::BACKGROUND);
+
             player.handleCollision(block, FRAME_TIME);
 
-            syncSprites(entities, sprites);
+            EntityManager::sync(EntityManager::Scenes::FOREGROUND);
+            EntityManager::sync(EntityManager::Scenes::GAMEPLAY);
+            EntityManager::sync(EntityManager::Scenes::BACKGROUND);
         }
 
-        draw(window, sprites);
+        SpriteManager::draw(window, SpriteManager::Scenes::FOREGROUND);
+        SpriteManager::draw(window, SpriteManager::Scenes::GAMEPLAY);
+        SpriteManager::draw(window, SpriteManager::Scenes::BACKGROUND);
+
+
+        glfwSwapBuffers(window);
     }
 
     glfwTerminate();
